@@ -9,7 +9,7 @@ public class Produto {
     private BigDecimal preco;
     private Categoria categoria;
 
-    public Produto(Long id, String nome, BigDecimal preco, Categoria categoria) {
+    public Produto(Long id, String nome, BigDecimal preco, Categoria categoria1, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;

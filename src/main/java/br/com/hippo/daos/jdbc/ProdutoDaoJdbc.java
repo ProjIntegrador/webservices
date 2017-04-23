@@ -31,21 +31,23 @@ public class ProdutoDaoJdbc implements ProdutoDao {
         List<Produto> produtos = new ArrayList<Produto>();
 
         try (Connection conn = DriverManager.getConnection(url, user, pass)) {
-            String sql = "select * from Produto order by nomeProduto";
+            String sql =    "SELECT prod.idCategoria, prod.idProduto, prod.nomeProduto, prod.precProduto, cat.nomeCategoria " +
+                            "FROM Produto prod INNER JOIN Categoria cat ON prod.idCategoria = cat.idCategoria " +
+                            "WHERE prod.idCategoria = ? AND ativoProduto = 1 order by nomeProduto;";
             PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setLong(1, categoria.getId());
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Long id = rs.getLong("idProduto");
                 String nome = rs.getString("nomeProduto");
                 BigDecimal preco = rs.getBigDecimal("precProduto");
-                Produto produto = new Produto(id, nome, preco, categoria);
+                Categoria nomecategoria = new Categoria(categoria.getId(), rs.getString("nomeCategoria"));
+                Produto produto = new Produto(id, nome, preco, categoria, nomecategoria);
                 produtos.add(produto);
             }
         } catch (SQLException ex) {
             throw new DaoException(ex);
         }
-
         return produtos;
     }
-
 }

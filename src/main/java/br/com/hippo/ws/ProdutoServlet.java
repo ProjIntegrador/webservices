@@ -3,7 +3,9 @@ package br.com.hippo.ws;
 import br.com.hippo.daos.CategoriaDao;
 import br.com.hippo.daos.DaoException;
 import br.com.hippo.daos.DaoFactory;
+import br.com.hippo.daos.ProdutoDao;
 import br.com.hippo.entities.Categoria;
+import br.com.hippo.entities.Produto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,25 +16,29 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/categoria")
-            //  A classe precisa herdar de HTTP Servlet do java
-public class CategoriaServlet extends HttpServlet {
+@WebServlet("/produto")
+//  A classe herda da
+public class ProdutoServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         //  Prepara variavel da saída de dados
         PrintWriter out = response.getWriter();
+        String idcategoria = request.getParameter("idCategoria");
+        Categoria categoria = new Categoria(new Long(idcategoria), "");
+
 
         try {
-            CategoriaDao categoriaDao = DaoFactory.getCategoriaDao();
-            List<Categoria> categorias = categoriaDao.findAll();
-            System.out.println("Categorias:");
-            for (Categoria c : categorias) {
-                System.out.println(c.getId() + "-" + c.getNome());
+            ProdutoDao produtoDao = DaoFactory.getProdutoDao();
+            List<Produto> produtos = produtoDao.findByCategoria(categoria);
+                    System.out.println("Produtos:" );
+            for (Produto p : produtos) {
+                System.out.println(p.getId() + "-" + p.getNome());
             }
 
-            //  Integração com o gerador Json com a dependencoa no pom.xml sendo o jackson-databind
+            //  Integração com o gerador Json com a dependencias no pom.xml sendo o jackson-databind
             ObjectMapper mapper = new ObjectMapper();
-            String jsonInString = mapper.writeValueAsString(categorias);
+            String jsonInString = mapper.writeValueAsString(produtos);
             out.println(jsonInString);
 
         } catch (DaoException ex) {
@@ -40,7 +46,5 @@ public class CategoriaServlet extends HttpServlet {
         }
 
 
-
     }
-
 }
