@@ -27,6 +27,7 @@ public class ProdutoDaoJdbc implements ProdutoDao {
         this.pass = pass;
     }
 
+    /*    BUSCANDO PRODUTOS DE UMA CATEGORIA      */
     public List<Produto> findByCategoria(Categoria categoria) throws DaoException {
         List<Produto> produtos = new ArrayList<Produto>();
 
@@ -41,8 +42,8 @@ public class ProdutoDaoJdbc implements ProdutoDao {
                 Long id = rs.getLong("idProduto");
                 String nome = rs.getString("nomeProduto");
                 BigDecimal preco = rs.getBigDecimal("precProduto");
-                Categoria nomecategoria = new Categoria(categoria.getId(), rs.getString("nomeCategoria"));
-                Produto produto = new Produto(id, nome, preco, categoria, nomecategoria);
+                Categoria rscategoria = new Categoria(categoria.getId(), rs.getString("nomeCategoria"));
+                Produto produto = new Produto(id, nome, preco, rscategoria);
                 produtos.add(produto);
             }
         } catch (SQLException ex) {
@@ -50,4 +51,38 @@ public class ProdutoDaoJdbc implements ProdutoDao {
         }
         return produtos;
     }
+
+    public Produto findProductById(int idProduto) throws DaoException {
+
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            String sql = "SELECT prod.*, cat.* " +
+                    "FROM Produto prod INNER JOIN Categoria cat ON prod.idCategoria = cat.idCategoria " +
+                    "WHERE prod.idCategoria = ? AND ativoProduto = 1 order by nomeProduto;";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setLong(1, idProduto);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Long id = rs.getLong("idProduto");
+                String nome = rs.getString("nomeProduto");
+                String descproduto = rs.getString("descProduto");
+                BigDecimal preco = rs.getBigDecimal("precProduto");
+                double descontopromo = rs.getDouble("descontoPromocao");
+                Categoria categoria = new Categoria(rs.getLong("idCategoria"), rs.getString("nomeCategoria"));
+                boolean produtoativo = rs.getBoolean("ativoProduto");
+                int iduser = rs.getInt("idUsuario");
+                int qtdminima = rs.getInt("qtdMinEstoque");
+                String imagem = rs.getString("imagem");
+
+                Produto produto = new Produto(id, nome, descproduto, preco, descontopromo,
+                        categoria, produtoativo, iduser, qtdminima, imagem);
+                return produto;
+            }
+
+            return null;
+
+        } catch (SQLException ex) {
+            throw new DaoException(ex);
+        }
+    }
+
 }

@@ -8,4 +8,6 @@ public interface ProdutoDao {
 
     public List<Produto> findByCategoria(Categoria categoria) throws DaoException;
 
+    public Produto findProductById(int idProduto) throws DaoException;
+
 }
