@@ -57,7 +57,7 @@ public class ProdutoDaoJdbc implements ProdutoDao {
         try (Connection conn = DriverManager.getConnection(url, user, pass)) {
             String sql = "SELECT prod.*, cat.* " +
                     "FROM Produto prod INNER JOIN Categoria cat ON prod.idCategoria = cat.idCategoria " +
-                    "WHERE prod.idCategoria = ? AND ativoProduto = 1 order by nomeProduto;";
+                    "WHERE prod.idProduto = ? AND ativoProduto = 1 order by nomeProduto;";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setLong(1, idProduto);
             ResultSet rs = stmt.executeQuery();
