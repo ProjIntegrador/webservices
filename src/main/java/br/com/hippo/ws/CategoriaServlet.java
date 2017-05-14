@@ -39,8 +39,6 @@ public class CategoriaServlet extends HttpServlet {
             System.out.println(ex);
         }
 
-
-
     }
 
 }

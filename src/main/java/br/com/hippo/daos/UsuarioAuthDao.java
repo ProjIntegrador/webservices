@@ -1,11 +1,8 @@
 package br.com.hippo.daos;
 
-import br.com.hippo.entities.UsuarioAuth;
+public interface UsuarioAuthDao {
 
-public class UsuarioAuthDao {
+    public boolean autenticaUsuario(String loginUsuario, String senhaUsuario) throws DaoException;
 
-    public UsuarioAuthDao(String loginUsuario, String senhaUsuario) throws DaoException {
-
-    }
 
 }

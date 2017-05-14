@@ -2,6 +2,7 @@ package br.com.hippo.daos;
 
 import br.com.hippo.daos.jdbc.ProdutoDaoJdbc;
 import br.com.hippo.daos.jdbc.CategoriaDaoJdbc;
+import br.com.hippo.daos.jdbc.UsuarioAuthJdbc;
 
 public class DaoFactory {
 
@@ -16,6 +17,10 @@ public class DaoFactory {
 
     public static ProdutoDao getProdutoDao() {
         return new ProdutoDaoJdbc(driver, url, user, pass);
+    }
+
+    public static UsuarioAuthJdbc getUsuarioAuth() { return new UsuarioAuthJdbc(driver, url, user, pass);
+
     }
 
 }
