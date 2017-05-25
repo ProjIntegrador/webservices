@@ -1,122 +1,84 @@
 package br.com.hippo.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Produto {
+@Entity
+public class Produto implements Serializable {
 
-    private Long id;
-    private String nome;
-    private String descproduto;
-    private BigDecimal preco;
-    private double descontopromo;
+    @Id
+    @GeneratedValue
+    private Long idProduto;
+    private String nomeProduto;
+    private String descProduto;
+    private BigDecimal precProduto;
+    private double descontoPromocao;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name="idCategoria")
     private Categoria categoria;
-    private boolean produtoativo;
-    private int iduser;
-    private int qtdminima;
-    private String imagem;
+    private boolean ativoProduto;
 
-    public Produto(Long id, String nome, BigDecimal preco, Categoria categoria) {
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.categoria = categoria;
+    public Produto() {}
+
+    public Long getIdProduto() {
+        return idProduto;
     }
 
-    // Construtor para detalhes do Produto
-    public Produto(Long id, String nome, String descproduto, BigDecimal preco,
-                   double descontopromo, Categoria categoria, boolean produtoativo,
-                   int iduser, int qtdminima, String imagem) {
-
-        this.id = id;
-        this.nome = nome;
-        this.descproduto = descproduto;
-        this.preco = preco;
-        this.descontopromo = descontopromo;
-        this.categoria = categoria;
-        this.produtoativo = produtoativo;
-        this.iduser = iduser;
-        this.qtdminima = qtdminima;
-        this.imagem = imagem;
-
+    public void setIdProduto(Long idProduto) {
+        this.idProduto = idProduto;
     }
 
-    public Long getId() {
-        return id;
+    public String getNomeProduto() {
+        return nomeProduto;
     }
 
-    public String getNome() {
-        return nome;
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
     }
 
-    public BigDecimal getPreco() {
-        return preco;
+    public String getDescProduto() {
+        return descProduto;
+    }
+
+    public void setDescProduto(String descProduto) {
+        this.descProduto = descProduto;
+    }
+
+    public BigDecimal getPrecProduto() {
+        return precProduto;
+    }
+
+    public void setPrecProduto(BigDecimal precProduto) {
+        this.precProduto = precProduto;
+    }
+
+    public double getDescontoPromocao() {
+        return descontoPromocao;
+    }
+
+    public void setDescontoPromocao(double descontoPromocao) {
+        this.descontoPromocao = descontoPromocao;
     }
 
     public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescproduto() {
-        return descproduto;
-    }
-
-    public void setDescproduto(String descproduto) {
-        this.descproduto = descproduto;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
-
-    public double getDescontopromo() {
-        return descontopromo;
-    }
-
-    public void setDescontopromo(double descontopromo) {
-        this.descontopromo = descontopromo;
-    }
-
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
-    public boolean isProdutoativo() {
-        return produtoativo;
+    public boolean isAtivoProduto() {
+        return ativoProduto;
     }
 
-    public void setProdutoativo(boolean produtoativo) {
-        this.produtoativo = produtoativo;
+    public void setAtivoProduto(boolean ativoProduto) {
+        this.ativoProduto = ativoProduto;
     }
 
-    public int getIduser() {
-        return iduser;
-    }
-
-    public void setIduser(int iduser) {
-        this.iduser = iduser;
-    }
-
-    public int getQtdminima() {
-        return qtdminima;
-    }
-
-    public void setQtdminima(int qtdminima) {
-        this.qtdminima = qtdminima;
-    }
-
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
 }

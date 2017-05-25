@@ -1,9 +1,16 @@
 package br.com.hippo.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Cliente {
+@Entity
+public class Cliente implements Serializable {
 
+    @Id
+    @GeneratedValue
     private Long idCliente;
     private String nomeCompletoCliente;
     private String emailCliente;
@@ -13,7 +20,7 @@ public class Cliente {
     private String telComercialCliente;
     private String telResidencialCliente;
     private Date dtNascCliente;
-    private String recebeNewsLetter;
+    private Integer recebeNewsLetter;
 
     public Long getIdCliente() {
         return idCliente;
@@ -87,11 +94,11 @@ public class Cliente {
         this.dtNascCliente = dtNascCliente;
     }
 
-    public String getRecebeNewsLetter() {
+    public Integer getRecebeNewsLetter() {
         return recebeNewsLetter;
     }
 
-    public void setRecebeNewsLetter(String recebeNewsLetter) {
+    public void setRecebeNewsLetter(Integer recebeNewsLetter) {
         this.recebeNewsLetter = recebeNewsLetter;
     }
 }

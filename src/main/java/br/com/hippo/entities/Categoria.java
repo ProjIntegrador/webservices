@@ -1,21 +1,33 @@
 package br.com.hippo.entities;
 
-public class Categoria {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.io.Serializable;
 
-    private Long id;
-    private String nome;
+@Entity
+public class Categoria implements Serializable {
 
-    public Categoria(Long id, String nome) {
-        this.id = id;
-        this.nome = nome;
+    @Id
+    @GeneratedValue
+    private Long idCategoria;
+    private String nomeCategoria;
+
+    public Categoria() {}
+
+    public Long getIdCategoria() {
+        return idCategoria;
     }
 
-    public Long getId() {
-        return id;
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeCategoria() {
+        return nomeCategoria;
     }
 
+    public void setNomeCategoria(String nomeCategoria) {
+        this.nomeCategoria = nomeCategoria;
+    }
 }
