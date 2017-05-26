@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.BeanParam;
 import java.util.List;
 
 @Controller
@@ -47,8 +46,7 @@ public class PedidoController {
 		produces = "application/json"
 	)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void readItens(
-		@BeanParam ItemPedido itemPedido,
+	public void readItens(ItemPedido itemPedido,
 		@RequestBody List<Item> itens
 	) {
 		itemPedido.setItens(itens);

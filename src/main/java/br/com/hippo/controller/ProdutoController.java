@@ -7,13 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/produto")
 public class ProdutoController {
 
 	@Autowired
 	private ProdutoRepository repository;
 
 	@RequestMapping(
-		value = "/produto/detalhe",
+		path = "/detalhe",
 		method = RequestMethod.GET,
 		produces = "application/json"
 	)
@@ -24,7 +25,7 @@ public class ProdutoController {
 	}
 
 	@RequestMapping(
-		value = "/produto",
+		path = "/",
 		method = RequestMethod.GET,
 		produces = "application/json"
 	)

@@ -1,12 +1,10 @@
 package br.com.hippo.entities;
 
-import javax.ws.rs.PathParam;
 import java.io.Serializable;
 import java.util.List;
 
 public class ItemPedido implements Serializable {
 
-	@PathParam("idPedido")
 	private Long idPedido;
 	private List<Item> itens;
 
