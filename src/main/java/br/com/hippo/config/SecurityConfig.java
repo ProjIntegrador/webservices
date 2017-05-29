@@ -4,7 +4,7 @@ import br.com.hippo.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,11 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -43,8 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers(
                         HttpMethod.GET,
-                        "/",
-                        "/categoria/*",
+                        "/info",
+                        "/categoria*","/categoria/*",
                         "/produto*","/produto/*"
                 ).permitAll()
                 .antMatchers(
@@ -54,19 +53,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
             .exceptionHandling()
-                .authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                        httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    }
-                })
-                .accessDeniedHandler(new AccessDeniedHandler() {
-                    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-                        httpServletResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-                    }
-                })
+                .authenticationEntryPoint(
+                    new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+//                    new AuthenticationEntryPoint() {
+//                        public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+//                            httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                        }
+//                    }
+                )
+                .accessDeniedHandler(
+                    new AccessDeniedHandlerImpl()
+//                    new AccessDeniedHandler() {
+//                        public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
+//                            httpServletResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+//                        }
+//                    }
+                )
                 .and()
             .formLogin()
-                .loginProcessingUrl("/webservices/login")
+                .loginProcessingUrl("/login")
                 .usernameParameter("emailCliente")
                 .passwordParameter("senhaCliente")
                 .successHandler(new AuthenticationSuccessHandler() {

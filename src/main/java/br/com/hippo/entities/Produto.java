@@ -22,6 +22,7 @@ public class Produto implements Serializable {
     @JoinColumn(name="idCategoria")
     private Categoria categoria;
     private boolean ativoProduto;
+    private int qtdMinEstoque;
 
     public Produto() {}
 
@@ -81,4 +82,11 @@ public class Produto implements Serializable {
         this.ativoProduto = ativoProduto;
     }
 
+    public int getQtdMinEstoque() {
+        return qtdMinEstoque;
+    }
+
+    public void setQtdMinEstoque(int qtdMinEstoque) {
+        this.qtdMinEstoque = qtdMinEstoque;
+    }
 }
