@@ -26,31 +26,26 @@ public class PedidoController {
 	@ResponseBody
 	public Pedido create(@RequestBody Pedido novoPedido) {
 		Pedido pedido = repository.save(novoPedido);
+		for(Item item : novoPedido.getItens()){
+			repository.saveIten(
+				pedido.getIdPedido(),
+				item.getIdProduto(),
+				item.getQtdProduto(),
+				item.getPrecoVendaItem()
+			);
+		}
 		return pedido;
 	}
 
 	@RequestMapping(
-			value = "/pedido/{id}",
-			method = RequestMethod.GET,
-			produces = "application/json"
+		value = "/pedido/{id}",
+		method = RequestMethod.GET,
+		produces = "application/json"
 	)
 	@ResponseBody
 	public Pedido readPedido(@PathVariable long id) {
 		Pedido pedido = repository.findOne(id);
 		return pedido;
-	}
-
-	@RequestMapping(
-		value = "/pedido/{idPedido}/itens",
-		method = RequestMethod.POST,
-		produces = "application/json"
-	)
-	@ResponseStatus(HttpStatus.CREATED)
-	public void readItens(ItemPedido itemPedido,
-		@RequestBody List<Item> itens
-	) {
-		itemPedido.setItens(itens);
-//		repository.saveItens(itemPedido);
 	}
 
 }

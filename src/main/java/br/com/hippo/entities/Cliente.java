@@ -1,5 +1,7 @@
 package br.com.hippo.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,6 +21,7 @@ public class Cliente implements Serializable {
     private String celularCliente;
     private String telComercialCliente;
     private String telResidencialCliente;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date dtNascCliente;
     private Integer recebeNewsLetter;
 

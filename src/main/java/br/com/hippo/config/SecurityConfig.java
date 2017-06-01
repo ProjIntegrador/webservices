@@ -48,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .antMatchers(
                         HttpMethod.POST,
-                        "/cliente"
+                        "/cliente",
+                        "/pedido*","/pedido/*"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -76,7 +77,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("senhaCliente")
                 .successHandler(new AuthenticationSuccessHandler() {
                     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+//                        String URL = httpServletRequest.getContextPath() + "/app";
                         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+//                        httpServletResponse.getWriter().append("Not authenticated");
+//                        httpServletResponse.sendRedirect(URL);
                     }
                 })
                 .failureHandler(new AuthenticationFailureHandler() {
@@ -100,9 +104,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
                 .disable()
             .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                .maximumSessions(1)
-                .expiredUrl("/expired")
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+//                .maximumSessions(1)
+//                .expiredUrl("/expired")
         ;
     }
 

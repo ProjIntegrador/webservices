@@ -2,12 +2,10 @@ package br.com.hippo.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Pedido implements Serializable{
@@ -22,6 +20,8 @@ public class Pedido implements Serializable{
 	private Long idTipoPagto;
 	private Long idEndereco;
 	private Long idAplicacao;
+	@Transient
+	private List<Item> itens;
 
 	public Pedido() {
 	}
@@ -85,5 +85,13 @@ public class Pedido implements Serializable{
 
 	public void setIdAplicacao(Long idAplicacao) {
 		this.idAplicacao = idAplicacao;
+	}
+
+	public List<Item> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<Item> itens) {
+		this.itens = itens;
 	}
 }
