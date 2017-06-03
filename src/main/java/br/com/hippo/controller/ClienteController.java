@@ -4,6 +4,7 @@ import br.com.hippo.entities.AutenticacaoCliente;
 import br.com.hippo.entities.Cliente;
 import br.com.hippo.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class ClienteController {
 	@ResponseBody
 	public Cliente create(@RequestBody Cliente novoCliente) {
 		Cliente cliente = repository.save(novoCliente);
+		AutenticacaoCliente autenticacaoCliente = new AutenticacaoCliente(cliente);
+		Authentication auth = new UsernamePasswordAuthenticationToken(autenticacaoCliente.getUsername(), autenticacaoCliente.getPassword());
+		SecurityContextHolder.getContext().setAuthentication(auth);
 		return cliente;
 	}
 
