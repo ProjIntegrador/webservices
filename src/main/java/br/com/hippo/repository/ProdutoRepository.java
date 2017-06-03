@@ -10,4 +10,9 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p JOIN FETCH p.categoria c WHERE c.idCategoria = :idCategoria")
     Iterable<Produto> findByIdCategoria(@Param("idCategoria") long idCategoria);
 
+    @Query(
+        value = "select imagem from produto where idProduto = :idProduto",
+        nativeQuery = true
+    )
+    byte[] findImageByProdutoId(@Param("idProduto") long idProduto);
 }

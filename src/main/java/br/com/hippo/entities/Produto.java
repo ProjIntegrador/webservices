@@ -23,6 +23,8 @@ public class Produto implements Serializable {
     private Categoria categoria;
     private boolean ativoProduto;
     private int qtdMinEstoque;
+    @Lob
+    private byte[] imagem;
 
     public Produto() {}
 
@@ -88,5 +90,13 @@ public class Produto implements Serializable {
 
     public void setQtdMinEstoque(int qtdMinEstoque) {
         this.qtdMinEstoque = qtdMinEstoque;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 }
